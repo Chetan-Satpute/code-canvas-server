@@ -98,12 +98,16 @@ class BinarySearchTree extends Structure {
       node.x = x;
       node.y = this.y + height * Node.HEIGHT * 2;
 
+      node.label = {};
+
       x += Node.WIDTH;
 
       if (node.rightNode) recurse(node.rightNode, height + 1);
     };
 
     recurse(this.root, 0);
+
+    if (this.root) this.root.label.top = 'root';
   }
 
   toFrame(frame?: Frame | undefined): Frame {
