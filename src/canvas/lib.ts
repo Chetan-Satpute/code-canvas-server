@@ -1,5 +1,6 @@
 import BinarySearchTree from './binarySearchTree/index.js';
 import LinkedList from './linkedList/index.js';
+import MaxHeap from './maxHeap/index.js';
 import NodeArray from './nodeArray/index.js';
 import Structure from './structure.js';
 
@@ -21,6 +22,7 @@ export function getRandomStructureByName(
     case StructureName.LinkedList:
       return LinkedList.random();
     case StructureName.MaxHeap:
+      return MaxHeap.random();
     default:
       return new Structure();
   }
