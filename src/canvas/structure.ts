@@ -1,4 +1,5 @@
 import {Frame, createFrame} from './frame.js';
+import Node from './node/index.js';
 
 class Structure {
   canvasId: number | null;
@@ -10,8 +11,8 @@ class Structure {
   constructor() {
     this.canvasId = null;
 
-    this.x = 0;
-    this.y = 0;
+    this.x = Node.WIDTH;
+    this.y = Node.HEIGHT * 2;
     this.opacity = 1;
   }
 
@@ -24,6 +25,10 @@ class Structure {
 
   toData(): string {
     return '';
+  }
+
+  static random() {
+    return new Structure();
   }
 }
 
