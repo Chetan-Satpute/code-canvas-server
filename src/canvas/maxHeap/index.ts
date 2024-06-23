@@ -56,6 +56,8 @@ class MaxHeap extends Structure {
       this.array[index].x = x;
       this.array[index].y = this.y + height * Node.HEIGHT * 2;
 
+      this.array[index].label = {};
+
       x += Node.WIDTH;
 
       const rightIndex = 2 * index + 2;
@@ -63,6 +65,8 @@ class MaxHeap extends Structure {
     };
 
     recurse(0);
+
+    if (this.array.length > 0) this.array[0].label.top = 'top';
   }
 
   toFrame(frame?: Frame | undefined): Frame {

@@ -61,9 +61,13 @@ class LinkedList extends Structure {
       ptr.x = x;
       ptr.y = this.y;
 
+      ptr.label = {};
+
       x += Node.WIDTH * 2;
       ptr = ptr.nextNode;
     }
+
+    if (this.head) this.head.label.top = 'head';
   }
 
   toFrame(frame?: Frame | undefined): Frame {
