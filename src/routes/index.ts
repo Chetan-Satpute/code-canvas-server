@@ -1,9 +1,11 @@
 import {Router} from 'express';
+import functionRouter from './function.js';
 import structureRouter from './structure.js';
 
 const router = Router();
 
 router.get('/', (_, res) => res.send({message: 'Code canvas server'}));
+router.use('/function', functionRouter);
 router.use('/structure', structureRouter);
 
 export default router;

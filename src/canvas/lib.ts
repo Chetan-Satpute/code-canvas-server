@@ -1,8 +1,13 @@
+import {binarySearchTreeFunctionSections} from './binarySearchTree/funcs.js';
 import BinarySearchTree from './binarySearchTree/index.js';
+import {linkedListFunctionSections} from './linkedList/funcs.js';
 import LinkedList from './linkedList/index.js';
+import {maxHeapFunctionSections} from './maxHeap/funcs.js';
 import MaxHeap from './maxHeap/index.js';
+import {arrayFunctionSections} from './nodeArray/funcs.js';
 import NodeArray from './nodeArray/index.js';
 import Structure from './structure.js';
+import {FunctionSection} from './types.js';
 
 export enum StructureName {
   Array = 'array',
@@ -25,5 +30,22 @@ export function getRandomStructureByName(
       return MaxHeap.random();
     default:
       return new Structure();
+  }
+}
+
+export function getFunctionSectionByName(
+  structureName: StructureName
+): FunctionSection[] {
+  switch (structureName) {
+    case StructureName.Array:
+      return arrayFunctionSections;
+    case StructureName.BinarySearchTree:
+      return binarySearchTreeFunctionSections;
+    case StructureName.LinkedList:
+      return linkedListFunctionSections;
+    case StructureName.MaxHeap:
+      return maxHeapFunctionSections;
+    default:
+      return [];
   }
 }
