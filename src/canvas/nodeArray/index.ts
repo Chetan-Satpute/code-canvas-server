@@ -60,6 +60,17 @@ class NodeArray extends Structure {
 
     return nodeArray;
   }
+
+  static fromData(data: string): NodeArray {
+    const values = JSON.parse(data) as number[];
+
+    const nodeArray = new NodeArray();
+    nodeArray.array = values.map(v => new Node(v));
+
+    nodeArray.rearrange();
+
+    return nodeArray;
+  }
 }
 
 export default NodeArray;

@@ -1,4 +1,9 @@
-import {FunctionArgumentType, FunctionSection} from '../types.js';
+import {
+  AlgorithmFunctionType,
+  FunctionArgumentType,
+  FunctionSection,
+} from '../types.js';
+import setArray from './modify/setArray.js';
 
 export enum ArrayFunctionId {
   SetArray = 'set-array',
@@ -24,3 +29,8 @@ export const arrayFunctionSections: FunctionSection[] = [
     ],
   },
 ];
+
+export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
+  {
+    [ArrayFunctionId.SetArray]: setArray,
+  };

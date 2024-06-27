@@ -4,10 +4,13 @@ import {linkedListFunctionSections} from './linkedList/funcs.js';
 import LinkedList from './linkedList/index.js';
 import {maxHeapFunctionSections} from './maxHeap/funcs.js';
 import MaxHeap from './maxHeap/index.js';
-import {arrayFunctionSections} from './nodeArray/funcs.js';
+import {
+  arrayAlgorithmFunctionMap,
+  arrayFunctionSections,
+} from './nodeArray/funcs.js';
 import NodeArray from './nodeArray/index.js';
 import Structure from './structure.js';
-import {FunctionSection} from './types.js';
+import {AlgorithmFunctionType, FunctionSection} from './types.js';
 
 export enum StructureName {
   Array = 'array',
@@ -15,6 +18,16 @@ export enum StructureName {
   LinkedList = 'linked-list',
   MaxHeap = 'max-heap',
 }
+
+export const algorithmFunctionMap: Record<
+  StructureName,
+  Record<string, AlgorithmFunctionType>
+> = {
+  [StructureName.Array]: arrayAlgorithmFunctionMap,
+  [StructureName.BinarySearchTree]: {},
+  [StructureName.LinkedList]: {},
+  [StructureName.MaxHeap]: {},
+};
 
 export function getRandomStructureByName(
   structureName: StructureName
@@ -28,6 +41,24 @@ export function getRandomStructureByName(
       return LinkedList.random();
     case StructureName.MaxHeap:
       return MaxHeap.random();
+    default:
+      return new Structure();
+  }
+}
+
+export function getStructureFromData(
+  structureName: StructureName,
+  data: string
+) {
+  switch (structureName) {
+    case StructureName.Array:
+      return NodeArray.fromData(data);
+    case StructureName.BinarySearchTree:
+      return BinarySearchTree.fromData(data);
+    case StructureName.LinkedList:
+      return LinkedList.fromData(data);
+    case StructureName.MaxHeap:
+      return MaxHeap.fromData(data);
     default:
       return new Structure();
   }
@@ -48,4 +79,11 @@ export function getFunctionSectionByName(
     default:
       return [];
   }
+}
+
+export function getAlgorithmFunction(
+  structureName: StructureName,
+  functionId: string
+) {
+  return algorithmFunctionMap[structureName][functionId] || null;
 }

@@ -30,6 +30,10 @@ class Structure {
   static random() {
     return new Structure();
   }
+
+  static fromData(_data: string) {
+    return new Structure();
+  }
 }
 
 export default Structure;
