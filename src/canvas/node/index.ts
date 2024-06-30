@@ -1,3 +1,4 @@
+import {Color} from '../color.js';
 import {Frame, LabelPosition} from '../frame.js';
 import Structure from '../structure.js';
 
@@ -13,7 +14,7 @@ class Node extends Structure {
   constructor(value = 0) {
     super();
 
-    this.color = 'transparent';
+    this.color = Color.Transparent;
     this.corners = 0b1111;
     this.value = value;
     this.label = {};

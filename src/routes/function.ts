@@ -2,6 +2,7 @@ import {Router} from 'express';
 import {isStructureName} from '../canvas/utils.js';
 import {
   getAlgorithmFunction,
+  getAlgorithmFunctionCode,
   getFunctionSectionByName,
   getStructureFromData,
 } from '../canvas/lib.js';
@@ -31,7 +32,6 @@ router.route('/:structureName/:functionId').post((req, res) => {
     structureData: string;
     arguments: Record<string, FunctionArgument>;
   };
-  console.log(structureData, req.body);
 
   if (!isStructureName(structureName)) {
     res.statusCode = 404;
@@ -39,6 +39,10 @@ router.route('/:structureName/:functionId').post((req, res) => {
   }
 
   const algorithmFunction = getAlgorithmFunction(structureName, functionId);
+  const algorithmFunctionCode = getAlgorithmFunctionCode(
+    structureName,
+    functionId
+  );
 
   if (!algorithmFunction) {
     res.statusCode = 404;
@@ -48,6 +52,7 @@ router.route('/:structureName/:functionId').post((req, res) => {
   const canvas = new Canvas();
   const structure = getStructureFromData(structureName, structureData);
 
+  canvas.addStructure(structure);
   algorithmFunction(canvas, structure, args);
 
   const structureFrame = structure.toFrame();
@@ -56,6 +61,8 @@ router.route('/:structureName/:functionId').post((req, res) => {
   res.send({
     frame: structureFrame,
     data: updatedStructureData,
+    code: algorithmFunctionCode,
+    steps: canvas.steps,
   });
 });
 

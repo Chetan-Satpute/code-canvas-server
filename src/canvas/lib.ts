@@ -5,6 +5,7 @@ import LinkedList from './linkedList/index.js';
 import {maxHeapFunctionSections} from './maxHeap/funcs.js';
 import MaxHeap from './maxHeap/index.js';
 import {
+  arrayAlgorithmFunctionCodeMap,
   arrayAlgorithmFunctionMap,
   arrayFunctionSections,
 } from './nodeArray/funcs.js';
@@ -24,6 +25,16 @@ export const algorithmFunctionMap: Record<
   Record<string, AlgorithmFunctionType>
 > = {
   [StructureName.Array]: arrayAlgorithmFunctionMap,
+  [StructureName.BinarySearchTree]: {},
+  [StructureName.LinkedList]: {},
+  [StructureName.MaxHeap]: {},
+};
+
+export const algorithmFunctionCodeMap: Record<
+  StructureName,
+  Record<string, string>
+> = {
+  [StructureName.Array]: arrayAlgorithmFunctionCodeMap,
   [StructureName.BinarySearchTree]: {},
   [StructureName.LinkedList]: {},
   [StructureName.MaxHeap]: {},
@@ -86,4 +97,11 @@ export function getAlgorithmFunction(
   functionId: string
 ) {
   return algorithmFunctionMap[structureName][functionId] || null;
+}
+
+export function getAlgorithmFunctionCode(
+  structureName: StructureName,
+  functionId: string
+) {
+  return algorithmFunctionCodeMap[structureName][functionId] || '';
 }
