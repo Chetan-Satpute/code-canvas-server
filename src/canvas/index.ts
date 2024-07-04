@@ -1,16 +1,25 @@
+import {randomUUID} from 'crypto';
 import {numberIdGenerator} from '../utils/number.js';
 import {createFrame} from './frame.js';
 import {Step, createStep} from './step.js';
 import Structure from './structure.js';
+import localStore from '../localStore/index.js';
 
 class Canvas {
   structures: Record<number, Structure>;
   steps: Step[];
   currentStep: Step;
+  runId: string;
+  timeStamp: Date;
+  stepNumber: number;
 
   createCanvasId: () => number;
 
   constructor() {
+    this.runId = randomUUID();
+    this.timeStamp = new Date();
+    this.stepNumber = 0;
+
     this.structures = {};
     this.steps = [];
     this.currentStep = createStep();
@@ -39,15 +48,24 @@ class Canvas {
   }
 
   pushStep(hlLines: number[]) {
+    const callStack = [...this.currentStep.callStack];
     this.pushFrame();
     this.currentStep.hlLines = hlLines;
     this.currentStep.callStack.reverse();
+
     this.steps.push(this.currentStep);
+    localStore.saveStep(
+      this.currentStep,
+      this.runId,
+      this.stepNumber,
+      this.timeStamp
+    );
 
     const step = createStep();
-    step.callStack = [...this.currentStep.callStack];
+    step.callStack = callStack;
 
     this.currentStep = step;
+    this.stepNumber++;
   }
 
   pushStack(signature: string) {
