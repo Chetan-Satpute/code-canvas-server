@@ -22,7 +22,9 @@ class LocalStore {
       SqliteQuery.InsertStep,
       [JSON.stringify(step), runId, stepNumber, runTimestamp.toISOString()],
       error => {
-        logError(`Save step failed ${error?.message}`);
+        if (error) {
+          logError(`Save step failed ${error?.message}`);
+        }
       }
     );
   }
