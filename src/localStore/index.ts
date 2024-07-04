@@ -2,6 +2,8 @@ import sqlite3, {Database} from 'sqlite3';
 import {SqliteQuery} from './queries.js';
 import {mkdirSync} from 'fs';
 import {Step} from '../canvas/step.js';
+import {StepRow} from './types.js';
+import {logError} from '../utils/log.js';
 
 class LocalStore {
   db: Database;
@@ -20,20 +22,24 @@ class LocalStore {
       SqliteQuery.InsertStep,
       [JSON.stringify(step), runId, stepNumber, runTimestamp.toISOString()],
       error => {
-        console.log(error);
+        logError(`Save step failed ${error?.message}`);
       }
     );
   }
 
-  getSteps(startStepNumber: number, endStepNumber: number) {
-    this.db.all(
-      SqliteQuery.GetSteps,
-      [startStepNumber, endStepNumber],
-      (_err, rows) => {
-        // TODO: return rows from here
-        console.log(rows);
-      }
-    );
+  getSteps(
+    startStepNumber: number,
+    endStepNumber: number,
+    runId: string
+  ): Promise<StepRow[]> {
+    return new Promise(resolve => {
+      const getStepsQueryValues = [startStepNumber, endStepNumber, runId];
+      const getStepsCallback = (_err: Error | null, rows: StepRow[]) => {
+        resolve(rows);
+      };
+
+      this.db.all(SqliteQuery.GetSteps, getStepsQueryValues, getStepsCallback);
+    });
   }
 }
 

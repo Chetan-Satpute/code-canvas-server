@@ -59,10 +59,10 @@ router.route('/:structureName/:functionId').post((req, res) => {
   const updatedStructureData = structure.toData();
 
   res.send({
+    runId: canvas.runId,
     frame: structureFrame,
     data: updatedStructureData,
     code: algorithmFunctionCode,
-    steps: canvas.steps,
   });
 });
 

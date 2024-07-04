@@ -16,6 +16,7 @@ const insertStep = `
 const getSteps = `
   SELECT * FROM steps
   WHERE step_number BETWEEN ? AND ?
+  AND run_id = ?
   ORDER BY step_number ASC;
 `;
 
