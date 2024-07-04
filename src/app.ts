@@ -6,6 +6,7 @@ import apiRouter from './routes/index.js';
 
 const app = express();
 
+app.use(express.json());
 app.use(cors());
 app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined'));
 

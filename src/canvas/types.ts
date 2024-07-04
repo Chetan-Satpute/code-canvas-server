@@ -1,3 +1,6 @@
+import Canvas from './index.js';
+import Structure from './structure.js';
+
 export interface Point {
   x: number;
   y: number;
@@ -28,3 +31,9 @@ export interface FunctionSection {
   title: string;
   functions: FunctionInfo[];
 }
+
+export type AlgorithmFunctionType = (
+  canvas: Canvas,
+  struct: Structure,
+  args: Record<string, FunctionArgument>
+) => void;
