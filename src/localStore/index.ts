@@ -7,14 +7,26 @@ import {logError} from '../utils/log.js';
 
 class LocalStore {
   db: Database;
+  timeout: NodeJS.Timeout | null;
 
   constructor() {
     mkdirSync('./db', {recursive: true});
     this.db = new sqlite3.Database('./db/code-canvas.db');
+    this.timeout = null;
   }
 
   init() {
     this.db.run(SqliteQuery.CreateStepsTable);
+    this.timeout = setInterval(
+      () => {
+        this.deleteOldSteps();
+      },
+      1000 * 60 * 5
+    );
+  }
+
+  deInit() {
+    if (this.timeout) clearInterval(this.timeout);
   }
 
   saveStep(step: Step, runId: string, stepNumber: number, runTimestamp: Date) {
@@ -42,6 +54,10 @@ class LocalStore {
 
       this.db.all(SqliteQuery.GetSteps, getStepsQueryValues, getStepsCallback);
     });
+  }
+
+  deleteOldSteps() {
+    this.db.run(SqliteQuery.DeleteOldSteps);
   }
 }
 

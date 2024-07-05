@@ -14,6 +14,8 @@ const server = app.listen(PORT, () => {
 function handleServerStop(signal: string) {
   log(`${signal} received`);
   server.close(() => log('Server closed'));
+
+  localStore.deInit();
 }
 
 process.addListener('SIGINT', handleServerStop);

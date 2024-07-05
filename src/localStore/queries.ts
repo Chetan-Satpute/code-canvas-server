@@ -20,8 +20,14 @@ const getSteps = `
   ORDER BY step_number ASC;
 `;
 
+const deleteOldSteps = `
+  DELETE FROM steps
+  WHERE run_timestamp < datetime('now', '-6 hours')
+`;
+
 export enum SqliteQuery {
   CreateStepsTable = createStepsTable,
   InsertStep = insertStep,
   GetSteps = getSteps,
+  DeleteOldSteps = deleteOldSteps,
 }
