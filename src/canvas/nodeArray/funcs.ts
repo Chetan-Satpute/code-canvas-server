@@ -8,6 +8,7 @@ import setArray from './modify/setArray.js';
 import sortArray from './modify/sortArray.js';
 import binarySearch, {binarySearchCode} from './search/binarySearch.js';
 import linearSearch, {linearSearchCode} from './search/linearSearch.js';
+import bubbleSort, {bubbleSortCode} from './sort/bubbleSort.js';
 
 export enum ArrayFunctionId {
   RandomArray = 'random-array',
@@ -15,6 +16,7 @@ export enum ArrayFunctionId {
   SortArray = 'sort-array',
   LinearSearch = 'linear-search',
   BinarySearch = 'binary-search',
+  Bubblesort = 'bubble-sort',
 }
 
 export const arrayFunctionSections: FunctionSection[] = [
@@ -79,6 +81,17 @@ export const arrayFunctionSections: FunctionSection[] = [
       },
     ],
   },
+  {
+    title: 'Sort',
+    functions: [
+      {
+        id: ArrayFunctionId.Bubblesort,
+        name: 'Bubble sort',
+        parameters: [],
+        animated: true,
+      },
+    ],
+  },
 ];
 
 export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
@@ -88,9 +101,11 @@ export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
     [ArrayFunctionId.SortArray]: sortArray,
     [ArrayFunctionId.LinearSearch]: linearSearch,
     [ArrayFunctionId.BinarySearch]: binarySearch,
+    [ArrayFunctionId.Bubblesort]: bubbleSort,
   };
 
 export const arrayAlgorithmFunctionCodeMap: Record<string, string> = {
   [ArrayFunctionId.LinearSearch]: linearSearchCode,
   [ArrayFunctionId.BinarySearch]: binarySearchCode,
+  [ArrayFunctionId.Bubblesort]: bubbleSortCode,
 };
