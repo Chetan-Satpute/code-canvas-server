@@ -10,6 +10,7 @@ import binarySearch, {binarySearchCode} from './search/binarySearch.js';
 import linearSearch, {linearSearchCode} from './search/linearSearch.js';
 import bubbleSort, {bubbleSortCode} from './sort/bubbleSort.js';
 import insertionSort, {insertionSortCode} from './sort/insertionSort.js';
+import selectionSort, {selectionSortCode} from './sort/selectionSort.js';
 
 export enum ArrayFunctionId {
   RandomArray = 'random-array',
@@ -19,6 +20,7 @@ export enum ArrayFunctionId {
   BinarySearch = 'binary-search',
   Bubblesort = 'bubble-sort',
   InsertionSort = 'insertion-sort',
+  SelectionSort = 'selection-sort',
 }
 
 export const arrayFunctionSections: FunctionSection[] = [
@@ -98,6 +100,12 @@ export const arrayFunctionSections: FunctionSection[] = [
         parameters: [],
         animated: true,
       },
+      {
+        id: ArrayFunctionId.SelectionSort,
+        name: 'Selection sort',
+        parameters: [],
+        animated: true,
+      },
     ],
   },
 ];
@@ -111,6 +119,7 @@ export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
     [ArrayFunctionId.BinarySearch]: binarySearch,
     [ArrayFunctionId.Bubblesort]: bubbleSort,
     [ArrayFunctionId.InsertionSort]: insertionSort,
+    [ArrayFunctionId.SelectionSort]: selectionSort,
   };
 
 export const arrayAlgorithmFunctionCodeMap: Record<string, string> = {
@@ -118,4 +127,5 @@ export const arrayAlgorithmFunctionCodeMap: Record<string, string> = {
   [ArrayFunctionId.BinarySearch]: binarySearchCode,
   [ArrayFunctionId.Bubblesort]: bubbleSortCode,
   [ArrayFunctionId.InsertionSort]: insertionSortCode,
+  [ArrayFunctionId.SelectionSort]: selectionSortCode,
 };
