@@ -5,12 +5,14 @@ import {
 } from '../types.js';
 import randomArray from './modify/randomArray.js';
 import setArray from './modify/setArray.js';
+import sortArray from './modify/sortArray.js';
 import binarySearch, {binarySearchCode} from './search/binarySearch.js';
 import linearSearch, {linearSearchCode} from './search/linearSearch.js';
 
 export enum ArrayFunctionId {
   RandomArray = 'random-array',
   SetArray = 'set-array',
+  SortArray = 'sort-array',
   LinearSearch = 'linear-search',
   BinarySearch = 'binary-search',
 }
@@ -22,6 +24,12 @@ export const arrayFunctionSections: FunctionSection[] = [
       {
         id: ArrayFunctionId.RandomArray,
         name: 'Random array',
+        parameters: [],
+        animated: false,
+      },
+      {
+        id: ArrayFunctionId.SortArray,
+        name: 'Sort array',
         parameters: [],
         animated: false,
       },
@@ -77,6 +85,7 @@ export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
   {
     [ArrayFunctionId.RandomArray]: randomArray,
     [ArrayFunctionId.SetArray]: setArray,
+    [ArrayFunctionId.SortArray]: sortArray,
     [ArrayFunctionId.LinearSearch]: linearSearch,
     [ArrayFunctionId.BinarySearch]: binarySearch,
   };
