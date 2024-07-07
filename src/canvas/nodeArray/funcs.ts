@@ -11,6 +11,7 @@ import linearSearch, {linearSearchCode} from './search/linearSearch.js';
 import bubbleSort, {bubbleSortCode} from './sort/bubbleSort.js';
 import insertionSort, {insertionSortCode} from './sort/insertionSort.js';
 import mergeSort, {mergeSortCode} from './sort/mergeSort.js';
+import quickSort, {quickSortCode} from './sort/quickSort.js';
 import selectionSort, {selectionSortCode} from './sort/selectionSort.js';
 
 export enum ArrayFunctionId {
@@ -23,6 +24,7 @@ export enum ArrayFunctionId {
   InsertionSort = 'insertion-sort',
   SelectionSort = 'selection-sort',
   MergeSort = 'merge-sort',
+  QuickSort = 'quick-sort',
 }
 
 export const arrayFunctionSections: FunctionSection[] = [
@@ -114,6 +116,12 @@ export const arrayFunctionSections: FunctionSection[] = [
         parameters: [],
         animated: true,
       },
+      {
+        id: ArrayFunctionId.QuickSort,
+        name: 'Quick sort',
+        parameters: [],
+        animated: true,
+      },
     ],
   },
 ];
@@ -129,6 +137,7 @@ export const arrayAlgorithmFunctionMap: Record<string, AlgorithmFunctionType> =
     [ArrayFunctionId.InsertionSort]: insertionSort,
     [ArrayFunctionId.SelectionSort]: selectionSort,
     [ArrayFunctionId.MergeSort]: mergeSort,
+    [ArrayFunctionId.QuickSort]: quickSort,
   };
 
 export const arrayAlgorithmFunctionCodeMap: Record<string, string> = {
@@ -138,4 +147,5 @@ export const arrayAlgorithmFunctionCodeMap: Record<string, string> = {
   [ArrayFunctionId.InsertionSort]: insertionSortCode,
   [ArrayFunctionId.SelectionSort]: selectionSortCode,
   [ArrayFunctionId.MergeSort]: mergeSortCode,
+  [ArrayFunctionId.QuickSort]: quickSortCode,
 };
