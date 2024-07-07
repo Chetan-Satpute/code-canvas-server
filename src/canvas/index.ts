@@ -4,7 +4,6 @@ import {createFrame} from './frame.js';
 import {Step, createStep} from './step.js';
 import Structure from './structure.js';
 import localStore from '../localStore/index.js';
-
 class Canvas {
   structures: Record<number, Structure>;
   steps: Step[];
@@ -70,6 +69,10 @@ class Canvas {
 
   pushStack(signature: string) {
     this.currentStep.callStack.push(signature);
+  }
+
+  popStack() {
+    this.currentStep.callStack.pop();
   }
 }
 

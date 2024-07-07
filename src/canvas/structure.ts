@@ -27,6 +27,11 @@ class Structure {
     return '';
   }
 
+  moveTo(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
   static random() {
     return new Structure();
   }

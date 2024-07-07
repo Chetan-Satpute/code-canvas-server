@@ -1,6 +1,6 @@
 export enum Color {
   Primary = '#755faa',
-  Secondary = '#f5f3ee',
+  Secondary = '#0096ff',
   Success = '#c8e3d0',
   Error = '#e78ea0',
   Transparent = 'transparent',
