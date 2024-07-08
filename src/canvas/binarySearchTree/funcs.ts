@@ -3,6 +3,7 @@ import {
   FunctionArgumentType,
   FunctionSection,
 } from '../types.js';
+import search, {searchCode} from './animated/search.js';
 import insert from './modify/insert.js';
 import randomBinarySearchTree from './modify/randomBinarySearchTree.js';
 import remove from './modify/remove.js';
@@ -13,6 +14,7 @@ export enum BinarySearchTreeFunctionId {
   SetBinarySearchTree = 'set-binary-search-tree',
   Insert = 'insert',
   Remove = 'remove',
+  Search = 'search',
 }
 
 export const binarySearchTreeFunctionSections: FunctionSection[] = [
@@ -41,7 +43,7 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
       },
       {
         id: BinarySearchTreeFunctionId.Insert,
-        name: 'Insert value',
+        name: 'Insert',
         parameters: [
           {
             label: 'value',
@@ -54,7 +56,7 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
       },
       {
         id: BinarySearchTreeFunctionId.Remove,
-        name: 'Remove value',
+        name: 'Remove',
         parameters: [
           {
             label: 'value',
@@ -64,6 +66,24 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
           },
         ],
         animated: false,
+      },
+    ],
+  },
+  {
+    title: 'Animated',
+    functions: [
+      {
+        id: BinarySearchTreeFunctionId.Search,
+        name: 'Search',
+        parameters: [
+          {
+            label: 'target',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to search',
+          },
+        ],
+        animated: true,
       },
     ],
   },
@@ -77,6 +97,9 @@ export const binarySearchTreeFunctionMap: Record<
   [BinarySearchTreeFunctionId.SetBinarySearchTree]: setBinarySearchTree,
   [BinarySearchTreeFunctionId.Insert]: insert,
   [BinarySearchTreeFunctionId.Remove]: remove,
+  [BinarySearchTreeFunctionId.Search]: search,
 };
 
-export const binarySearchTreeCodeMap: Record<string, string> = {};
+export const binarySearchTreeCodeMap: Record<string, string> = {
+  [BinarySearchTreeFunctionId.Search]: searchCode,
+};

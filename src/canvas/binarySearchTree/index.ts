@@ -155,6 +155,23 @@ class BinarySearchTree extends Structure {
     return JSON.stringify(data);
   }
 
+  forEach(
+    root: BinarySearchTreeNode | null,
+    callback: (node: BinarySearchTreeNode) => void
+  ) {
+    if (!root) return;
+
+    const _recurse = (node: BinarySearchTreeNode | null) => {
+      if (!node) return;
+
+      _recurse(node.leftNode);
+      callback(node);
+      _recurse(node.rightNode);
+    };
+
+    _recurse(root);
+  }
+
   static fromData(dataString: string): BinarySearchTree {
     const data = JSON.parse(dataString) as BinarySearchTreeDataNode;
 
@@ -177,6 +194,7 @@ class BinarySearchTree extends Structure {
     };
 
     tree.root = recurse(data);
+    tree.rearrange();
 
     return tree;
   }
