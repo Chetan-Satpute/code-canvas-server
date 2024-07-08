@@ -3,12 +3,16 @@ import {
   FunctionArgumentType,
   FunctionSection,
 } from '../types.js';
+import insert from './modify/insert.js';
 import randomBinarySearchTree from './modify/randomBinarySearchTree.js';
+import remove from './modify/remove.js';
 import setBinarySearchTree from './modify/setBinarySearchTree.js';
 
 export enum BinarySearchTreeFunctionId {
   RandomBinarySearchTree = 'random-binary-search-tree',
   SetBinarySearchTree = 'set-binary-search-tree',
+  Insert = 'insert',
+  Remove = 'remove',
 }
 
 export const binarySearchTreeFunctionSections: FunctionSection[] = [
@@ -35,6 +39,32 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
         ],
         animated: false,
       },
+      {
+        id: BinarySearchTreeFunctionId.Insert,
+        name: 'Insert value',
+        parameters: [
+          {
+            label: 'value',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to insert',
+          },
+        ],
+        animated: false,
+      },
+      {
+        id: BinarySearchTreeFunctionId.Remove,
+        name: 'Remove value',
+        parameters: [
+          {
+            label: 'value',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to remove',
+          },
+        ],
+        animated: false,
+      },
     ],
   },
 ];
@@ -45,6 +75,8 @@ export const binarySearchTreeFunctionMap: Record<
 > = {
   [BinarySearchTreeFunctionId.RandomBinarySearchTree]: randomBinarySearchTree,
   [BinarySearchTreeFunctionId.SetBinarySearchTree]: setBinarySearchTree,
+  [BinarySearchTreeFunctionId.Insert]: insert,
+  [BinarySearchTreeFunctionId.Remove]: remove,
 };
 
 export const binarySearchTreeCodeMap: Record<string, string> = {};

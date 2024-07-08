@@ -9,7 +9,7 @@ type BinarySearchTreeDataNode = {
   right: BinarySearchTreeDataNode;
 } | null;
 
-class BinarySearchTreeNode extends Node {
+export class BinarySearchTreeNode extends Node {
   leftNode: BinarySearchTreeNode | null;
   rightNode: BinarySearchTreeNode | null;
 
