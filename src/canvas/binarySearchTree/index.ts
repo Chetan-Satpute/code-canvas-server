@@ -3,6 +3,12 @@ import {EdgeType, Frame} from '../frame.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
+type BinarySearchTreeDataNode = {
+  value: number;
+  left: BinarySearchTreeDataNode;
+  right: BinarySearchTreeDataNode;
+} | null;
+
 class BinarySearchTreeNode extends Node {
   leftNode: BinarySearchTreeNode | null;
   rightNode: BinarySearchTreeNode | null;
@@ -128,19 +134,51 @@ class BinarySearchTree extends Structure {
   }
 
   toData(): string {
-    const preOrderValues: number[] = [];
+    if (!this.root) return JSON.stringify(null);
 
-    const recurse = (node: BinarySearchTreeNode | null) => {
-      if (!node) return;
+    const recurse = (
+      node: BinarySearchTreeNode | null
+    ): BinarySearchTreeDataNode => {
+      if (!node) return null;
 
-      preOrderValues.push(node.value);
-      if (node.leftNode) recurse(node.leftNode);
-      if (node.rightNode) recurse(node.rightNode);
+      const data: BinarySearchTreeDataNode = {
+        value: node.value,
+        left: recurse(node.leftNode),
+        right: recurse(node.rightNode),
+      };
+
+      return data;
     };
 
-    recurse(this.root);
+    const data = recurse(this.root);
 
-    return `[${preOrderValues}]`;
+    return JSON.stringify(data);
+  }
+
+  static fromData(dataString: string): BinarySearchTree {
+    const data = JSON.parse(dataString) as BinarySearchTreeDataNode;
+
+    const tree = new BinarySearchTree();
+
+    if (!data) return tree;
+
+    const recurse = (
+      dataNode: BinarySearchTreeDataNode
+    ): BinarySearchTreeNode | null => {
+      if (!dataNode) return null;
+
+      const node = new BinarySearchTreeNode();
+
+      node.value = dataNode.value;
+      node.leftNode = recurse(dataNode.left);
+      node.rightNode = recurse(dataNode.right);
+
+      return node;
+    };
+
+    tree.root = recurse(data);
+
+    return tree;
   }
 
   static random(): BinarySearchTree {
