@@ -1,14 +1,23 @@
 import {randomNumber, randomNumberArray} from '../../utils/number.js';
 import {EdgeType, Frame} from '../frame.js';
+import Canvas from '../index.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
-class BinarySearchTreeNode extends Node {
+type BinarySearchTreeDataNode = {
+  value: number;
+  left: BinarySearchTreeDataNode;
+  right: BinarySearchTreeDataNode;
+} | null;
+
+export class BinarySearchTreeNode extends Node {
   leftNode: BinarySearchTreeNode | null;
   rightNode: BinarySearchTreeNode | null;
 
   leftEdgePercent: number;
+  leftEdgeOpacity: number;
   rightEdgePercent: number;
+  rightEdgeOpacity: number;
 
   constructor(value = 0) {
     super(value);
@@ -17,7 +26,9 @@ class BinarySearchTreeNode extends Node {
     this.rightNode = null;
 
     this.leftEdgePercent = 100;
+    this.leftEdgeOpacity = 1;
     this.rightEdgePercent = 100;
+    this.rightEdgeOpacity = 1;
   }
 
   toFrame(frame?: Frame | undefined): Frame {
@@ -28,7 +39,7 @@ class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.leftNode.x, y: this.leftNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.opacity,
+        opacity: Math.min(this.leftEdgeOpacity, this.opacity),
         percent: this.leftEdgePercent,
       });
     }
@@ -38,12 +49,60 @@ class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.rightNode.x, y: this.rightNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.opacity,
+        opacity: Math.min(this.rightEdgeOpacity, this.opacity),
         percent: this.rightEdgePercent,
       });
     }
 
     return frame;
+  }
+
+  growEdge(canvas: Canvas, type: 'left' | 'right') {
+    for (let i = 0; i <= 100; i += 5) {
+      if (type === 'left') {
+        this.leftEdgeOpacity = i / 100;
+        this.leftEdgePercent = i;
+      } else {
+        this.rightEdgeOpacity = i / 100;
+        this.rightEdgePercent = i;
+      }
+
+      canvas.pushFrame();
+    }
+
+    if (type === 'left') {
+      this.leftEdgeOpacity = 1;
+      this.leftEdgePercent = 100;
+    } else {
+      this.rightEdgeOpacity = 1;
+      this.rightEdgePercent = 100;
+    }
+
+    canvas.pushFrame();
+  }
+
+  shrinkEdge(canvas: Canvas, type: 'left' | 'right') {
+    for (let i = 100; i >= 0; i -= 5) {
+      if (type === 'left') {
+        this.leftEdgeOpacity = i / 100;
+        this.leftEdgePercent = i;
+      } else {
+        this.rightEdgeOpacity = i / 100;
+        this.rightEdgePercent = i;
+      }
+
+      canvas.pushFrame();
+    }
+
+    if (type === 'left') {
+      this.leftEdgeOpacity = 0;
+      this.leftEdgePercent = 0;
+    } else {
+      this.rightEdgeOpacity = 0;
+      this.rightEdgePercent = 0;
+    }
+
+    canvas.pushFrame();
   }
 }
 
@@ -128,19 +187,109 @@ class BinarySearchTree extends Structure {
   }
 
   toData(): string {
-    const preOrderValues: number[] = [];
+    if (!this.root) return JSON.stringify(null);
 
-    const recurse = (node: BinarySearchTreeNode | null) => {
-      if (!node) return;
+    const recurse = (
+      node: BinarySearchTreeNode | null
+    ): BinarySearchTreeDataNode => {
+      if (!node) return null;
 
-      preOrderValues.push(node.value);
-      if (node.leftNode) recurse(node.leftNode);
-      if (node.rightNode) recurse(node.rightNode);
+      const data: BinarySearchTreeDataNode = {
+        value: node.value,
+        left: recurse(node.leftNode),
+        right: recurse(node.rightNode),
+      };
+
+      return data;
     };
 
-    recurse(this.root);
+    const data = recurse(this.root);
 
-    return `[${preOrderValues}]`;
+    return JSON.stringify(data);
+  }
+
+  forEach(
+    root: BinarySearchTreeNode | null,
+    callback: (node: BinarySearchTreeNode, distance: number) => void
+  ) {
+    if (!root) return;
+
+    const _recurse = (node: BinarySearchTreeNode | null, distance = 0) => {
+      if (!node) return;
+
+      _recurse(node.leftNode, distance - 1);
+      callback(node, distance);
+      _recurse(node.rightNode, distance + 1);
+    };
+
+    _recurse(root);
+  }
+
+  allNodesRightOf(node: BinarySearchTreeNode | null) {
+    if (!node) return [];
+
+    const nodes: BinarySearchTreeNode[] = [];
+    let found = false;
+
+    const _recurse = (n: BinarySearchTreeNode | null) => {
+      if (!n) return;
+
+      _recurse(n.leftNode);
+
+      if (found) nodes.push(n);
+      if (n.value === node?.value) found = true;
+
+      _recurse(n.rightNode);
+    };
+
+    _recurse(this.root);
+
+    return nodes;
+  }
+
+  allNodesBelow(node: BinarySearchTreeNode | null) {
+    if (!node) return [];
+
+    const nodes: BinarySearchTreeNode[] = [];
+
+    const _recurse = (n: BinarySearchTreeNode | null) => {
+      if (!n) return;
+
+      _recurse(n.leftNode);
+      nodes.push(n);
+      _recurse(n.rightNode);
+    };
+
+    _recurse(node);
+
+    return nodes;
+  }
+
+  static fromData(dataString: string): BinarySearchTree {
+    const data = JSON.parse(dataString) as BinarySearchTreeDataNode;
+
+    const tree = new BinarySearchTree();
+
+    if (!data) return tree;
+
+    const recurse = (
+      dataNode: BinarySearchTreeDataNode
+    ): BinarySearchTreeNode | null => {
+      if (!dataNode) return null;
+
+      const node = new BinarySearchTreeNode();
+
+      node.value = dataNode.value;
+      node.leftNode = recurse(dataNode.left);
+      node.rightNode = recurse(dataNode.right);
+
+      return node;
+    };
+
+    tree.root = recurse(data);
+    tree.rearrange();
+
+    return tree;
   }
 
   static random(): BinarySearchTree {
