@@ -6,6 +6,9 @@ import {
 import animatedInsert, {
   insertCode as animatedInsertCode,
 } from './animated/insert.js';
+import animatedRemove, {
+  removeCode as animatedRemoveCode,
+} from './animated/remove.js';
 import search, {searchCode} from './animated/search.js';
 import insert from './modify/insert.js';
 import randomBinarySearchTree from './modify/randomBinarySearchTree.js';
@@ -19,6 +22,7 @@ export enum BinarySearchTreeFunctionId {
   Remove = 'remove',
   Search = 'search',
   AnimatedInsert = 'animated-insert',
+  AnimatedRemove = 'animated-remove',
 }
 
 export const binarySearchTreeFunctionSections: FunctionSection[] = [
@@ -102,6 +106,19 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
         ],
         animated: true,
       },
+      {
+        id: BinarySearchTreeFunctionId.AnimatedRemove,
+        name: 'Remove',
+        parameters: [
+          {
+            label: 'value',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to remove',
+          },
+        ],
+        animated: true,
+      },
     ],
   },
 ];
@@ -116,9 +133,11 @@ export const binarySearchTreeFunctionMap: Record<
   [BinarySearchTreeFunctionId.Remove]: remove,
   [BinarySearchTreeFunctionId.Search]: search,
   [BinarySearchTreeFunctionId.AnimatedInsert]: animatedInsert,
+  [BinarySearchTreeFunctionId.AnimatedRemove]: animatedRemove,
 };
 
 export const binarySearchTreeCodeMap: Record<string, string> = {
   [BinarySearchTreeFunctionId.Search]: searchCode,
   [BinarySearchTreeFunctionId.AnimatedInsert]: animatedInsertCode,
+  [BinarySearchTreeFunctionId.AnimatedRemove]: animatedRemoveCode,
 };

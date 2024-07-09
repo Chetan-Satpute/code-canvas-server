@@ -39,7 +39,7 @@ export class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.leftNode.x, y: this.leftNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.leftEdgeOpacity,
+        opacity: Math.min(this.leftEdgeOpacity, this.opacity),
         percent: this.leftEdgePercent,
       });
     }
@@ -49,7 +49,7 @@ export class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.rightNode.x, y: this.rightNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.rightEdgeOpacity,
+        opacity: Math.min(this.rightEdgeOpacity, this.opacity),
         percent: this.rightEdgePercent,
       });
     }
@@ -210,19 +210,59 @@ class BinarySearchTree extends Structure {
 
   forEach(
     root: BinarySearchTreeNode | null,
-    callback: (node: BinarySearchTreeNode) => void
+    callback: (node: BinarySearchTreeNode, distance: number) => void
   ) {
     if (!root) return;
 
-    const _recurse = (node: BinarySearchTreeNode | null) => {
+    const _recurse = (node: BinarySearchTreeNode | null, distance = 0) => {
       if (!node) return;
 
-      _recurse(node.leftNode);
-      callback(node);
-      _recurse(node.rightNode);
+      _recurse(node.leftNode, distance - 1);
+      callback(node, distance);
+      _recurse(node.rightNode, distance + 1);
     };
 
     _recurse(root);
+  }
+
+  allNodesRightOf(node: BinarySearchTreeNode | null) {
+    if (!node) return [];
+
+    const nodes: BinarySearchTreeNode[] = [];
+    let found = false;
+
+    const _recurse = (n: BinarySearchTreeNode | null) => {
+      if (!n) return;
+
+      _recurse(n.leftNode);
+
+      if (found) nodes.push(n);
+      if (n.value === node?.value) found = true;
+
+      _recurse(n.rightNode);
+    };
+
+    _recurse(this.root);
+
+    return nodes;
+  }
+
+  allNodesBelow(node: BinarySearchTreeNode | null) {
+    if (!node) return [];
+
+    const nodes: BinarySearchTreeNode[] = [];
+
+    const _recurse = (n: BinarySearchTreeNode | null) => {
+      if (!n) return;
+
+      _recurse(n.leftNode);
+      nodes.push(n);
+      _recurse(n.rightNode);
+    };
+
+    _recurse(node);
+
+    return nodes;
   }
 
   static fromData(dataString: string): BinarySearchTree {
