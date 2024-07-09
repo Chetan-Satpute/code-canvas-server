@@ -1,5 +1,6 @@
 import {randomNumber, randomNumberArray} from '../../utils/number.js';
 import {EdgeType, Frame} from '../frame.js';
+import Canvas from '../index.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
@@ -14,7 +15,9 @@ export class BinarySearchTreeNode extends Node {
   rightNode: BinarySearchTreeNode | null;
 
   leftEdgePercent: number;
+  leftEdgeOpacity: number;
   rightEdgePercent: number;
+  rightEdgeOpacity: number;
 
   constructor(value = 0) {
     super(value);
@@ -23,7 +26,9 @@ export class BinarySearchTreeNode extends Node {
     this.rightNode = null;
 
     this.leftEdgePercent = 100;
+    this.leftEdgeOpacity = 1;
     this.rightEdgePercent = 100;
+    this.rightEdgeOpacity = 1;
   }
 
   toFrame(frame?: Frame | undefined): Frame {
@@ -34,7 +39,7 @@ export class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.leftNode.x, y: this.leftNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.opacity,
+        opacity: this.leftEdgeOpacity,
         percent: this.leftEdgePercent,
       });
     }
@@ -44,12 +49,60 @@ export class BinarySearchTreeNode extends Node {
         startNodePosition: {x: this.x, y: this.y},
         endNodePosition: {x: this.rightNode.x, y: this.rightNode.y},
         type: EdgeType.DIRECTED,
-        opacity: this.opacity,
+        opacity: this.rightEdgeOpacity,
         percent: this.rightEdgePercent,
       });
     }
 
     return frame;
+  }
+
+  growEdge(canvas: Canvas, type: 'left' | 'right') {
+    for (let i = 0; i <= 100; i += 5) {
+      if (type === 'left') {
+        this.leftEdgeOpacity = i / 100;
+        this.leftEdgePercent = i;
+      } else {
+        this.rightEdgeOpacity = i / 100;
+        this.rightEdgePercent = i;
+      }
+
+      canvas.pushFrame();
+    }
+
+    if (type === 'left') {
+      this.leftEdgeOpacity = 1;
+      this.leftEdgePercent = 100;
+    } else {
+      this.rightEdgeOpacity = 1;
+      this.rightEdgePercent = 100;
+    }
+
+    canvas.pushFrame();
+  }
+
+  shrinkEdge(canvas: Canvas, type: 'left' | 'right') {
+    for (let i = 100; i >= 0; i -= 5) {
+      if (type === 'left') {
+        this.leftEdgeOpacity = i / 100;
+        this.leftEdgePercent = i;
+      } else {
+        this.rightEdgeOpacity = i / 100;
+        this.rightEdgePercent = i;
+      }
+
+      canvas.pushFrame();
+    }
+
+    if (type === 'left') {
+      this.leftEdgeOpacity = 0;
+      this.leftEdgePercent = 0;
+    } else {
+      this.rightEdgeOpacity = 0;
+      this.rightEdgePercent = 0;
+    }
+
+    canvas.pushFrame();
   }
 }
 

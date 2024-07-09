@@ -3,6 +3,9 @@ import {
   FunctionArgumentType,
   FunctionSection,
 } from '../types.js';
+import animatedInsert, {
+  insertCode as animatedInsertCode,
+} from './animated/insert.js';
 import search, {searchCode} from './animated/search.js';
 import insert from './modify/insert.js';
 import randomBinarySearchTree from './modify/randomBinarySearchTree.js';
@@ -15,6 +18,7 @@ export enum BinarySearchTreeFunctionId {
   Insert = 'insert',
   Remove = 'remove',
   Search = 'search',
+  AnimatedInsert = 'animated-insert',
 }
 
 export const binarySearchTreeFunctionSections: FunctionSection[] = [
@@ -85,6 +89,19 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
         ],
         animated: true,
       },
+      {
+        id: BinarySearchTreeFunctionId.AnimatedInsert,
+        name: 'Insert',
+        parameters: [
+          {
+            label: 'value',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to insert',
+          },
+        ],
+        animated: true,
+      },
     ],
   },
 ];
@@ -98,8 +115,10 @@ export const binarySearchTreeFunctionMap: Record<
   [BinarySearchTreeFunctionId.Insert]: insert,
   [BinarySearchTreeFunctionId.Remove]: remove,
   [BinarySearchTreeFunctionId.Search]: search,
+  [BinarySearchTreeFunctionId.AnimatedInsert]: animatedInsert,
 };
 
 export const binarySearchTreeCodeMap: Record<string, string> = {
   [BinarySearchTreeFunctionId.Search]: searchCode,
+  [BinarySearchTreeFunctionId.AnimatedInsert]: animatedInsertCode,
 };
