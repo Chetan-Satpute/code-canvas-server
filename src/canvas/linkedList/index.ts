@@ -26,7 +26,7 @@ export class LinkedListNode extends Node {
 
     if (this.nextNode) {
       let percent = this.nextEdgePercent;
-      if (this.nextNode.previousNode) {
+      if (this.nextNode.previousNode && this.nextNode.previousNode === this) {
         percent += 1000 * this.nextNode.previousEdgePercent;
       }
 
@@ -126,6 +126,8 @@ class LinkedList extends Structure {
   static fromData(data: string): LinkedList {
     const list = new LinkedList();
     const values = JSON.parse(data) as number[];
+
+    if (values.length === 0) return list;
 
     values.reverse();
 
