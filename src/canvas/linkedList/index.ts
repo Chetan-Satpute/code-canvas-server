@@ -1,5 +1,6 @@
 import {randomNumber, randomNumberArray} from '../../utils/number.js';
 import {EdgeType, Frame} from '../frame.js';
+import Canvas from '../index.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
@@ -8,9 +9,7 @@ export class LinkedListNode extends Node {
   previousNode: LinkedListNode | null;
 
   nextEdgePercent: number;
-  nextEdgeOpacity: number;
   previousEdgePercent: number;
-  previousEdgeOpacity: number;
 
   constructor(value = 0) {
     super(value);
@@ -19,9 +18,7 @@ export class LinkedListNode extends Node {
     this.previousNode = null;
 
     this.nextEdgePercent = 100;
-    this.nextEdgeOpacity = 1;
     this.previousEdgePercent = 100;
-    this.previousEdgeOpacity = 1;
   }
 
   toFrame(frame?: Frame | undefined): Frame {
@@ -43,6 +40,34 @@ export class LinkedListNode extends Node {
     }
 
     return frame;
+  }
+
+  growNextEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.nextEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkNextEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.nextEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  growPreviousEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.previousEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkPreviousEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.previousEdgePercent = i;
+      canvas.pushFrame();
+    }
   }
 }
 
@@ -101,6 +126,8 @@ class LinkedList extends Structure {
   static fromData(data: string): LinkedList {
     const list = new LinkedList();
     const values = JSON.parse(data) as number[];
+
+    values.reverse();
 
     list.head = new LinkedListNode(values[0]);
 
