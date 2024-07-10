@@ -16,8 +16,8 @@ import remove from './modify/remove.js';
 import setBinarySearchTree from './modify/setBinarySearchTree.js';
 
 export enum BinarySearchTreeFunctionId {
-  RandomBinarySearchTree = 'random-binary-search-tree',
-  SetBinarySearchTree = 'set-binary-search-tree',
+  Random = 'random',
+  Set = 'set',
   Insert = 'insert',
   Remove = 'remove',
   Search = 'search',
@@ -30,13 +30,13 @@ export const binarySearchTreeFunctionSections: FunctionSection[] = [
     title: 'Modify',
     functions: [
       {
-        id: BinarySearchTreeFunctionId.RandomBinarySearchTree,
+        id: BinarySearchTreeFunctionId.Random,
         name: 'Random binary search tree',
         parameters: [],
         animated: false,
       },
       {
-        id: BinarySearchTreeFunctionId.SetBinarySearchTree,
+        id: BinarySearchTreeFunctionId.Set,
         name: 'Set binary search tree',
         parameters: [
           {
@@ -127,8 +127,8 @@ export const binarySearchTreeFunctionMap: Record<
   string,
   AlgorithmFunctionType
 > = {
-  [BinarySearchTreeFunctionId.RandomBinarySearchTree]: randomBinarySearchTree,
-  [BinarySearchTreeFunctionId.SetBinarySearchTree]: setBinarySearchTree,
+  [BinarySearchTreeFunctionId.Random]: randomBinarySearchTree,
+  [BinarySearchTreeFunctionId.Set]: setBinarySearchTree,
   [BinarySearchTreeFunctionId.Insert]: insert,
   [BinarySearchTreeFunctionId.Remove]: remove,
   [BinarySearchTreeFunctionId.Search]: search,

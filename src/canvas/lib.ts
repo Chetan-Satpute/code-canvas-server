@@ -4,7 +4,7 @@ import {
   binarySearchTreeFunctionSections,
 } from './binarySearchTree/funcs.js';
 import BinarySearchTree from './binarySearchTree/index.js';
-import {linkedListFunctionSections} from './linkedList/funcs.js';
+import {linkedListCodeMap, linkedListFunctionMap, linkedListFunctionSections} from './linkedList/funcs.js';
 import LinkedList from './linkedList/index.js';
 import {maxHeapFunctionSections} from './maxHeap/funcs.js';
 import MaxHeap from './maxHeap/index.js';
@@ -30,7 +30,7 @@ export const algorithmFunctionMap: Record<
 > = {
   [StructureName.Array]: arrayAlgorithmFunctionMap,
   [StructureName.BinarySearchTree]: binarySearchTreeFunctionMap,
-  [StructureName.LinkedList]: {},
+  [StructureName.LinkedList]: linkedListFunctionMap,
   [StructureName.MaxHeap]: {},
 };
 
@@ -40,7 +40,7 @@ export const algorithmFunctionCodeMap: Record<
 > = {
   [StructureName.Array]: arrayAlgorithmFunctionCodeMap,
   [StructureName.BinarySearchTree]: binarySearchTreeCodeMap,
-  [StructureName.LinkedList]: {},
+  [StructureName.LinkedList]: linkedListCodeMap,
   [StructureName.MaxHeap]: {},
 };
 

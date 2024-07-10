@@ -3,12 +3,14 @@ import {EdgeType, Frame} from '../frame.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
-class LinkedListNode extends Node {
+export class LinkedListNode extends Node {
   nextNode: LinkedListNode | null;
   previousNode: LinkedListNode | null;
 
   nextEdgePercent: number;
+  nextEdgeOpacity: number;
   previousEdgePercent: number;
+  previousEdgeOpacity: number;
 
   constructor(value = 0) {
     super(value);
@@ -17,7 +19,9 @@ class LinkedListNode extends Node {
     this.previousNode = null;
 
     this.nextEdgePercent = 100;
+    this.nextEdgeOpacity = 1;
     this.previousEdgePercent = 100;
+    this.previousEdgeOpacity = 1;
   }
 
   toFrame(frame?: Frame | undefined): Frame {
@@ -29,14 +33,13 @@ class LinkedListNode extends Node {
         percent += 1000 * this.nextNode.previousEdgePercent;
       }
 
-      if (this.nextNode.previousNode)
-        frame.edges.push({
-          startNodePosition: {x: this.x, y: this.y},
-          endNodePosition: {x: this.nextNode.x, y: this.nextNode.y},
-          type: EdgeType.BIDIRECTED,
-          opacity: this.opacity,
-          percent: percent,
-        });
+      frame.edges.push({
+        startNodePosition: {x: this.x, y: this.y},
+        endNodePosition: {x: this.nextNode.x, y: this.nextNode.y},
+        type: EdgeType.BIDIRECTED,
+        opacity: this.opacity,
+        percent: percent,
+      });
     }
 
     return frame;
@@ -93,6 +96,24 @@ class LinkedList extends Structure {
     }
 
     return `[${values}]`;
+  }
+
+  static fromData(data: string): LinkedList {
+    const list = new LinkedList();
+    const values = JSON.parse(data) as number[];
+
+    list.head = new LinkedListNode(values[0]);
+
+    for (let i = 1; i < values.length; i++) {
+      const node = new LinkedListNode(values[i]);
+
+      node.nextNode = list.head;
+      list.head = node;
+    }
+
+    list.rearrange();
+
+    return list;
   }
 
   static random(): LinkedList {
