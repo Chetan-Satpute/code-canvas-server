@@ -108,6 +108,7 @@ class LinkedList extends Structure {
       const node = new LinkedListNode(values[i]);
 
       node.nextNode = list.head;
+      list.head.previousNode = node;
       list.head = node;
     }
 
