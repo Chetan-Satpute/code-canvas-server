@@ -30,9 +30,17 @@ function insertHead(canvas: Canvas, list: LinkedList, value: number) {
   canvas.pushStep([3]);
   if (!list.head) {
     list.head = node;
+    list.moveTo(list.x, list.y + LinkedListNode.HEIGHT * 2);
+    list.rearrange();
     canvas.pushStep([4]);
 
+    for (let i = 0; i < LinkedListNode.HEIGHT * 2; i++) {
+      list.moveTo(list.x, list.y - 1);
+      list.rearrange();
+      canvas.pushFrame();
+    }
     canvas.pushStep([5]);
+    node.color = Color.Transparent;
     canvas.pushStep([14]);
     return;
   }

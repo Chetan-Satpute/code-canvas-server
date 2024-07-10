@@ -60,7 +60,7 @@ export const removeHeadCode = `function removeHead(list) {
   list.head = list.head.next;
 
   if (list.head) {
-    list.head.prev = null;
+    list.head.previous = null;
   }
 
   return;

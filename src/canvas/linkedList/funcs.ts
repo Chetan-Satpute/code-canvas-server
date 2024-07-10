@@ -6,6 +6,7 @@ import {
 import insertAfter, {insertAfterCode} from './animated/insertAfter.js';
 import insertHead, {insertHeadCode} from './animated/insertHead.js';
 import removeHead, {removeHeadCode} from './animated/removeHead.js';
+import removeNode, {removeNodeCode} from './animated/removeNode.js';
 import randomLinkedList from './modify/random.js';
 import setLinkedList from './modify/set.js';
 
@@ -15,6 +16,7 @@ export enum LinkedListFunctionId {
   InsertHead = 'insert-head',
   RemoveHead = 'remove-head',
   InsertAfter = 'insert-after',
+  RemoveNode = 'remove-node',
 }
 
 export const linkedListFunctionSections: FunctionSection[] = [
@@ -83,6 +85,19 @@ export const linkedListFunctionSections: FunctionSection[] = [
         ],
         animated: true,
       },
+      {
+        id: LinkedListFunctionId.RemoveNode,
+        name: 'Remove node',
+        parameters: [
+          {
+            label: 'nodeValue',
+            placeholder: 'node value',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value of node to remove',
+          },
+        ],
+        animated: true,
+      },
     ],
   },
 ];
@@ -93,10 +108,12 @@ export const linkedListFunctionMap: Record<string, AlgorithmFunctionType> = {
   [LinkedListFunctionId.InsertHead]: insertHead,
   [LinkedListFunctionId.RemoveHead]: removeHead,
   [LinkedListFunctionId.InsertAfter]: insertAfter,
+  [LinkedListFunctionId.RemoveNode]: removeNode,
 };
 
 export const linkedListCodeMap: Record<string, string> = {
   [LinkedListFunctionId.InsertHead]: insertHeadCode,
   [LinkedListFunctionId.RemoveHead]: removeHeadCode,
   [LinkedListFunctionId.InsertAfter]: insertAfterCode,
+  [LinkedListFunctionId.RemoveNode]: removeNodeCode,
 };
