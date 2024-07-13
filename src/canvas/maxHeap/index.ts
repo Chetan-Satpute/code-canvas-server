@@ -77,6 +77,26 @@ class MaxHeap extends Structure {
     }
   }
 
+  getPositionIndexMap() {
+    const map: number[] = [];
+    let position = 0;
+
+    const _recurse = (nodeIndex: number) => {
+      if (nodeIndex >= this.array.length) return;
+
+      const leftIndex = nodeIndex * 2 + 1;
+      const rightIndex = nodeIndex * 2 + 2;
+
+      if (leftIndex < this.array.length) _recurse(leftIndex);
+      map[position++] = nodeIndex;
+      if (rightIndex < this.array.length) _recurse(rightIndex);
+    };
+
+    _recurse(0);
+
+    return map;
+  }
+
   rearrange(): void {
     let x = this.x;
     let y = this.y;
