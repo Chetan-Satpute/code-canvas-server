@@ -3,12 +3,14 @@ import {
   FunctionArgumentType,
   FunctionSection,
 } from '../types.js';
+import insert, {insertCode} from './animated/insert.js';
 import randomMaxHeap from './modify/random.js';
 import setMaxHeap from './modify/setHeap.js';
 
 export enum MaxHeapFunctionId {
   Random = 'random',
   Set = 'set',
+  Insert = 'insert',
 }
 
 export const maxHeapFunctionSections: FunctionSection[] = [
@@ -37,11 +39,32 @@ export const maxHeapFunctionSections: FunctionSection[] = [
       },
     ],
   },
+  {
+    title: 'Animated',
+    functions: [
+      {
+        id: MaxHeapFunctionId.Insert,
+        name: 'Insert value',
+        parameters: [
+          {
+            label: 'value',
+            placeholder: '0',
+            argumentType: FunctionArgumentType.Number,
+            supportingText: 'value to insert',
+          },
+        ],
+        animated: true,
+      },
+    ],
+  },
 ];
 
 export const maxHeapFunctionMap: Record<string, AlgorithmFunctionType> = {
   [MaxHeapFunctionId.Random]: randomMaxHeap,
   [MaxHeapFunctionId.Set]: setMaxHeap,
+  [MaxHeapFunctionId.Insert]: insert,
 };
 
-export const maxHeapCodeMap: Record<string, string> = {};
+export const maxHeapCodeMap: Record<string, string> = {
+  [MaxHeapFunctionId.Insert]: insertCode,
+};

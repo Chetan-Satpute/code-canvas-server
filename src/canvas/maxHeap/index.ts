@@ -1,9 +1,10 @@
 import {randomNumber, randomNumberArray} from '../../utils/number.js';
 import {EdgeType, Frame} from '../frame.js';
+import Canvas from '../index.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
-class MaxHeapNode extends Node {
+export class MaxHeapNode extends Node {
   treeX: number;
   treeY: number;
 
@@ -18,6 +19,34 @@ class MaxHeapNode extends Node {
 
     this.leftEdgePercent = 100;
     this.rightEdgePercent = 100;
+  }
+
+  growLeftEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.leftEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkLeftEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.leftEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  growRightEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.rightEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkRightEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.rightEdgePercent = i;
+      canvas.pushFrame();
+    }
   }
 }
 
@@ -144,6 +173,7 @@ class MaxHeap extends Structure {
 
     const maxHeap = new MaxHeap();
     for (const value of numberArray) maxHeap.insert(value);
+    maxHeap.rearrange();
 
     return maxHeap;
   }
