@@ -14,8 +14,6 @@ const randomBinarySearchTree: AlgorithmFunctionType = (
 
   tree.root = null;
 
-  console.log(tree);
-
   for (const value of numberArray) tree.insert(value);
   tree.rearrange();
 };

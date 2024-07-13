@@ -53,6 +53,7 @@ router.route('/:structureName/:functionId').post((req, res) => {
   const structure = getStructureFromData(structureName, structureData);
 
   canvas.addStructure(structure);
+
   algorithmFunction(canvas, structure, args);
 
   const structureFrame = structure.toFrame();

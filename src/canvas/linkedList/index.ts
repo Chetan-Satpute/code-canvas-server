@@ -1,9 +1,10 @@
 import {randomNumber, randomNumberArray} from '../../utils/number.js';
 import {EdgeType, Frame} from '../frame.js';
+import Canvas from '../index.js';
 import Node from '../node/index.js';
 import Structure from '../structure.js';
 
-class LinkedListNode extends Node {
+export class LinkedListNode extends Node {
   nextNode: LinkedListNode | null;
   previousNode: LinkedListNode | null;
 
@@ -25,21 +26,48 @@ class LinkedListNode extends Node {
 
     if (this.nextNode) {
       let percent = this.nextEdgePercent;
-      if (this.nextNode.previousNode) {
+      if (this.nextNode.previousNode && this.nextNode.previousNode === this) {
         percent += 1000 * this.nextNode.previousEdgePercent;
       }
 
-      if (this.nextNode.previousNode)
-        frame.edges.push({
-          startNodePosition: {x: this.x, y: this.y},
-          endNodePosition: {x: this.nextNode.x, y: this.nextNode.y},
-          type: EdgeType.BIDIRECTED,
-          opacity: this.opacity,
-          percent: percent,
-        });
+      frame.edges.push({
+        startNodePosition: {x: this.x, y: this.y},
+        endNodePosition: {x: this.nextNode.x, y: this.nextNode.y},
+        type: EdgeType.BIDIRECTED,
+        opacity: this.opacity,
+        percent: percent,
+      });
     }
 
     return frame;
+  }
+
+  growNextEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.nextEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkNextEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.nextEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  growPreviousEdge(canvas: Canvas) {
+    for (let i = 0; i <= 100; i++) {
+      this.previousEdgePercent = i;
+      canvas.pushFrame();
+    }
+  }
+
+  shrinkPreviousEdge(canvas: Canvas) {
+    for (let i = 100; i >= 0; i--) {
+      this.previousEdgePercent = i;
+      canvas.pushFrame();
+    }
   }
 }
 
@@ -93,6 +121,29 @@ class LinkedList extends Structure {
     }
 
     return `[${values}]`;
+  }
+
+  static fromData(data: string): LinkedList {
+    const list = new LinkedList();
+    const values = JSON.parse(data) as number[];
+
+    if (values.length === 0) return list;
+
+    values.reverse();
+
+    list.head = new LinkedListNode(values[0]);
+
+    for (let i = 1; i < values.length; i++) {
+      const node = new LinkedListNode(values[i]);
+
+      node.nextNode = list.head;
+      list.head.previousNode = node;
+      list.head = node;
+    }
+
+    list.rearrange();
+
+    return list;
   }
 
   static random(): LinkedList {
