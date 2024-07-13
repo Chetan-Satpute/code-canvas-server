@@ -20,15 +20,15 @@ class Node extends Structure {
     this.label = {};
   }
 
-  toFrame(frame?: Frame): Frame {
+  toFrame(frame?: Frame, x?: number, y?: number, corners?: number): Frame {
     frame = super.toFrame(frame);
 
     frame.nodes.push({
-      x: this.x,
-      y: this.y,
+      x: x || this.x,
+      y: y || this.y,
       value: this.value,
       color: this.color,
-      corners: this.corners,
+      corners: corners || this.corners,
       opacity: this.opacity,
     });
 
@@ -37,7 +37,7 @@ class Node extends Structure {
 
       if (label) {
         frame.labels.push({
-          nodePosition: {x: this.x, y: this.y},
+          nodePosition: {x: x || this.x, y: y || this.y},
           position: position,
           text: label,
           opacity: this.opacity,
