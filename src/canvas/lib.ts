@@ -4,9 +4,17 @@ import {
   binarySearchTreeFunctionSections,
 } from './binarySearchTree/funcs.js';
 import BinarySearchTree from './binarySearchTree/index.js';
-import {linkedListCodeMap, linkedListFunctionMap, linkedListFunctionSections} from './linkedList/funcs.js';
+import {
+  linkedListCodeMap,
+  linkedListFunctionMap,
+  linkedListFunctionSections,
+} from './linkedList/funcs.js';
 import LinkedList from './linkedList/index.js';
-import {maxHeapFunctionSections} from './maxHeap/funcs.js';
+import {
+  maxHeapCodeMap,
+  maxHeapFunctionMap,
+  maxHeapFunctionSections,
+} from './maxHeap/funcs.js';
 import MaxHeap from './maxHeap/index.js';
 import {
   arrayAlgorithmFunctionCodeMap,
@@ -31,7 +39,7 @@ export const algorithmFunctionMap: Record<
   [StructureName.Array]: arrayAlgorithmFunctionMap,
   [StructureName.BinarySearchTree]: binarySearchTreeFunctionMap,
   [StructureName.LinkedList]: linkedListFunctionMap,
-  [StructureName.MaxHeap]: {},
+  [StructureName.MaxHeap]: maxHeapFunctionMap,
 };
 
 export const algorithmFunctionCodeMap: Record<
@@ -41,7 +49,7 @@ export const algorithmFunctionCodeMap: Record<
   [StructureName.Array]: arrayAlgorithmFunctionCodeMap,
   [StructureName.BinarySearchTree]: binarySearchTreeCodeMap,
   [StructureName.LinkedList]: linkedListCodeMap,
-  [StructureName.MaxHeap]: {},
+  [StructureName.MaxHeap]: maxHeapCodeMap,
 };
 
 export function getRandomStructureByName(
