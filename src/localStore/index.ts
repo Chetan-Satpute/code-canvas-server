@@ -3,7 +3,7 @@ import {SqliteQuery} from './queries.js';
 import {mkdirSync} from 'fs';
 import {Step} from '../canvas/step.js';
 import {StepRow} from './types.js';
-import {logError} from '../utils/log.js';
+import {log, logError} from '../utils/log.js';
 
 class LocalStore {
   db: Database;
@@ -17,12 +17,13 @@ class LocalStore {
 
   init() {
     this.db.run(SqliteQuery.CreateStepsTable);
-    this.timeout = setInterval(
-      () => {
-        this.deleteOldSteps();
-      },
-      1000 * 60 * 5
-    );
+    this.timeout = setInterval(() => {
+      this.deleteOldSteps();
+      this.db.run('VACUUM', err => {
+        if (err) logError('Could not vacuum db');
+        else log('VACUUM db successful');
+      });
+    }, 600000);
   }
 
   deInit() {
