@@ -11,5 +11,6 @@ app.use(cors());
 app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined'));
 
 app.use('/api', apiRouter);
+app.get('/ping', (_req, res) => res.send({message: 'pong'}));
 
 export default app;

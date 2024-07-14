@@ -7,7 +7,7 @@ export const {NODE_ENV = 'development'} = process.env;
 // Load environment variables
 dotenv.config({path: `.env.${NODE_ENV}`});
 
-export const {PORT} = process.env;
+export const {PORT, PING_ROUTE} = process.env;
 
 const requiredVariables = [PORT];
 
